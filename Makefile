@@ -2,6 +2,14 @@ SHELL:=/bin/bash
 splits := $(wildcard split/*)
 splitparses := $(wildcard split-parse/*)
 
+fig/lexical-density-displot.png: ./src/displot data/id2lexical-density
+	$^ lexical-density $@
+
+fig/mean-node-types-per-sentence-displot.png: ./src/displot data/id2mean-node-types-per-sentence
+	$^ mean-node-types-per-sentence $@
+
+fig/mean-mean-degree-displot.png: ./src/displot data/id2mean-degree
+	$^ mean-mean-degree $@
 
 data/id2mean-degree: ./src/mean-degree data/id2node-degree-list-per-sentence
 	$^ $@
