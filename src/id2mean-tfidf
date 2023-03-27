@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+import texthero as hero
+import pandas as pd
+import sys
+
+df = pd.read_csv(sys.argv[1],delimiter="\t")
+
+df["tfidf"],names = hero.tfidf(df["text"],return_feature_names=True)
+
+for i,r in df.iterrows():
+  length = len(list(filter(None,r["tfidf"])))
+  s = sum(r["tfidf"])
+  print(r["id"],s/float(length),sep="\t")

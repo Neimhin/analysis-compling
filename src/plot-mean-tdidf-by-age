@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+import pandas as pd
+import seaborn as sns
+import sys
+
+df = pd.read_csv(sys.argv[1],delimiter="\t")
+
+sns.scatterplot(df,x="age in days",y="mean-tfidf",s=0.5).get_figure().savefig(sys.argv[2],dpi=300)

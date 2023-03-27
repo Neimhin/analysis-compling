@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+import texthero as hero
+import pandas as pd
+import numpy as np
+from scipy.special import softmax
+import sys
+from gensim import corpora
+
+df = pd.read_csv(sys.argv[1],delimiter="\t")
+
+dct = corpora.Dictionary(d.split() for d in df["text"])
+
+
+df = pd.DataFrame([(k,dct.cfs[v]) for k,v in dct.token2id.items()],columns=["lemma","frequency"])
+
+df = df.sort_values("frequency")
+
+df["rank"] = df["frequency"].rank(method="dense",ascending=False) 
+x = np.maximum(np.log10(np.log10(df["rank"])),0)
+df["log-log-rank-order"] = x
+
+df.to_csv(sys.argv[2],sep="\t",index=False)
+  
+# for i,r in df.iterrows():
+#   lemmas = r["text"].split()
+#   lemma_term_frequencies = np.array([dct.cfs[dct.token2id[lemma]] for lemma in lemmas])
+#   print(list(zip(lemmas,1.0 - (lemma_term_frequencies/float(dct.num_pos)))))
+#   exit()

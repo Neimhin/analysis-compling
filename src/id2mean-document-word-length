@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+import texthero as hero
+import pandas as pd
+import json
+import sys
+
+df = pd.read_csv(sys.argv[1],delimiter="\t")
+
+
+def mdwl(w):
+  j = json.loads(w)
+  return float(sum(map(len,j))) / len(j)
+
+df["mean-document-word-length"] = [mdwl(w) for w in df["words-json"]]
+
+
+df[["id","mean-document-word-length"]].to_csv(sys.argv[2],sep="\t",index=False)

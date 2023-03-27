@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+import pandas as pd
+import seaborn as sns
+import sys
+
+def r(n):
+  return pd.read_csv(sys.argv[n],delimiter="\t")
+df = r(1).merge(r(2))
+df = df.sort_values("age in days")
+df.to_csv(sys.argv[3],sep="\t")
+
+sns.lineplot(df[["age in days","mean-tfidf"]])

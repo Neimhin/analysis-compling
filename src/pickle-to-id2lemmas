@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+import pandas as pd
+import sys
+import json
+df = pd.read_pickle(sys.argv[1])
+
+def get_lemma(word):
+  if word.lemma:
+    return word.lemma
+  else:
+    return ""
+
+df["stanza-lemmas-json"] = [ json.dumps([get_lemma(word) for sent in r["parse"].sentences for word in sent.words]) for i,r in df.iterrows() ]
+
+
+df[["id","stanza-lemmas-json"]].to_csv(sys.argv[2],sep="\t")

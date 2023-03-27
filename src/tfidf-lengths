@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+import pandas as pd
+import sys
+import json
+
+df = pd.read_csv(sys.argv[1],delimiter="\t")
+
+for a in df["tfidf"]:
+  print(len(json.loads(a)))

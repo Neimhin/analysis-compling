@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+import sys
+import pandas as pd
+import stanza
+import json
+
+if len(sys.argv) != 3:
+    exit()
+
+# Load the stanza pipeline for English
+nlp = stanza.Pipeline('en',processors=["constituency","pos","depparse","lemma","tokenize","sentiment","ner","mwt"])
+
+# Load the dataframe
+df = pd.read_csv(sys.argv[1],delimiter="\t")
+
+# Define a function to get the parse of a sentence using the stanza pipeline
+def get_parse(sentence):
+    parse = nlp(sentence)
+    print(parse.sentences[0].constituency)
+    return parse
+
+# Apply the get_parse function to each sentence in the "text" column of the dataframe
+df['parse'] = df['text'].apply(get_parse)
+
+df[["id","parse"]].copy().to_pickle(sys.argv[2])

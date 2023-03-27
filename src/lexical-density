@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+import pandas as pd
+import numpy as np
+import sys
+
+tok2score = {r["token"]:r["log-log-rank-order"] for i,r in pd.read_csv(sys.argv[1],delimiter="\t").iterrows()}
+
+def get_score(word):
+  if word.lemma in tok2score:
+    return float(tok2score[word.lemma])
+  print(word.lemma, 0.0)
+  return 0.0
+
+def sentence_lexical_diversity(s):
+  ld = [get_score(word) for word in s.words]
+  return sum(ld)
+
+parses = pd.read_pickle(sys.argv[2])
+
+lex_score_arrays = [[get_score(word) for s in p["parse"].sentences for word in s.words] for i,p in parses.iterrows() ]
+
+parses["lexical-density"] = [sum(x)/len(x) for x in lex_score_arrays]
+
+parses[["id","lexical-density"]].to_csv(sys.argv[3],sep="\t",index=False)

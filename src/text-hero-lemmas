@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+import texthero as hero
+import pandas as pd
+import sys
+
+df = pd.read_csv(sys.argv[1],delimiter="\t")
+
+df["lemmas"] = hero.preprocessing.stem(df["text"])
+
+for l in df["lemmas"]:
+  for w in l.split():
+    print(w)
+

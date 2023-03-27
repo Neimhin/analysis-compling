@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+import pandas as pd
+import numpy as np
+import sys
+import lib as l
+import json
+
+if __name__ == "__main__":
+  parses = pd.read_pickle(sys.argv[1])
+  parses["node-degree-list"] = [json.dumps([l.sentence_node_degree_list(s.constituency) for s in p["parse"].sentences ]) for i,p in parses.iterrows() ]
+  parses[["id","node-degree-list"]].to_csv(sys.argv[2],sep="\t",index=False)

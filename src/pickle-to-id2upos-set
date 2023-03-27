@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+import pandas as pd
+import sys
+df = pd.read_pickle(sys.argv[1])
+
+def list_to_string(l):
+  s = ""
+  for e in l:
+    s = s + " " + e
+  return s
+
+def get_lemma(word):
+  if word.lemma:
+    return word.lemma
+  else:
+    return word.word
+
+def isTerminal(pt):
+  return pt.children == ()
+
+def upos_set(parse_tree):
+  if isTerminal(parse_tree):
+    return set()
+  return set([parse_tree.label]).union(*[upos_set(t) for t in parse_tree.children])
+
+for i,r in df.iterrows():
+  l = list(set().union(*[upos_set(sent.constituency) for sent in r["parse"].sentences]))
+  print(" ".join(l))

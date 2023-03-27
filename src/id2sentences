@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+import pandas as pd
+import numpy as np
+import sys
+import lib as l
+import json
+
+if __name__ == "__main__":
+  parses = pd.read_pickle(sys.argv[1])
+  parses["sentences"] = [json.dumps([[word.text for word in s.words] for s in p.sentences]) for p in parses["parse"]]
+  parses[["id","sentences"]].to_csv(sys.argv[2],sep="\t",index=False)

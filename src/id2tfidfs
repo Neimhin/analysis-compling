@@ -1,0 +1,10 @@
+#!/usr/bin/env python3
+import texthero
+import pandas as pd
+import sys
+
+df = pd.read_csv(sys.argv[1],delimiter="\t")
+df["tdfidf"],names = texthero.tfidf(df["text"],return_feature_names=True)
+
+print(names,file=sys.stderr)
+df.to_csv(sys.stdout, sep="\t")

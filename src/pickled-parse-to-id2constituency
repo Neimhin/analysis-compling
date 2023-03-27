@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+import sys
+import pandas as pd
+pickle = sys.argv[1]
+id2con = sys.argv[2]
+
+print("NYI")
+exit()
+
+def get_const(p):
+  return [get_grammar_rules(s.constituency) for s in p.sentences]
+
+df = pd.read_pickle(pickle)
+
+const = df.parse.apply(get_const)
+const = [get_const(r.parse) for l,r in df.iterrows()]
+
+def get_grammar_rules(con):
+  if(isTerminal(node)):
+    return []
+  top_rule = gram_rule(node)
+  child_rules = [get_grammar_rules(c) for c in node.children
+
+def gram_rule(node):
+  LHS=node.label
+  RHS=[resolve_rhs(n) for n in node.children]
+  return [LHS] + RHS
+
+def resolve_rhs(n):
+  if(isTerminal(n)):
+    return "TERMINAL"
+  return n.label
+
+

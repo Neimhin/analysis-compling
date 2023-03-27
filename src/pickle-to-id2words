@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+import pandas as pd
+import sys
+import json
+df = pd.read_pickle(sys.argv[1])
+
+def list_to_string(l):
+  s = ""
+  for e in l:
+    s = s + " " + e
+  return s
+
+def get_lemma(word):
+    return word.text
+
+df["words-json"] = [json.dumps([get_lemma(word) for sent in r["parse"].sentences for word in sent.words]) for i,r in df.iterrows()]
+
+
+df[["id","words-json"]].to_csv(sys.argv[2],sep="\t",index=False)
