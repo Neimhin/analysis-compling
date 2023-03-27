@@ -2,6 +2,13 @@ SHELL:=/bin/bash
 splits := $(wildcard split/*)
 splitparses := $(wildcard split-parse/*)
 
+
+data/id2proxies: ./src/join data/id2mean-node-types-per-sentence data/id2mean-degree data/id2lexical-density data/id2mean-sentence-mean-lexical-diversity
+	$^ $@
+
+fig/mean-sentence-meaan-lexical-diversity-displot.png: ./src/displot data/id2mean-sentence-mean-lexical-diversity
+	$^ mean-sentence-mean-lexical-diversity $@
+
 fig/lexical-density-displot.png: ./src/displot data/id2lexical-density
 	$^ lexical-density $@
 
@@ -24,6 +31,9 @@ data/id2sentences: ./src/id2sentences data/parses.pickle
 	$^ $@
 
 data/id2node-type-list: ./src/node-type-list data/parses.pickle
+	$^ $@
+
+data/id2mean-sentence-mean-lexical-diversity: ./src/mean-sentence-mean-lexical-diversity data/stanza-lemmas-token2lex-score data/parses.pickle
 	$^ $@
 
 data/id2lexical-density: ./src/lexical-density data/stanza-lemmas-token2lex-score data/parses.pickle

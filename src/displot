@@ -2,6 +2,7 @@
 import seaborn as sns
 import pandas as pd
 import sys
+import matplotlib.pyplot as plt
 
 df = pd.read_csv(sys.argv[1],delimiter="\t")
 df.head()
@@ -9,4 +10,9 @@ df.head()
 v=sys.argv[2]
 print(df[v])
 
-sns.displot(df[v]).fig.savefig(sys.argv[3])
+sns.displot(df[v])
+
+plt.axvline(x=df[v].mean(), color="black")
+plt.axvline(x=df[v].median(), color="blue",ls="--")
+
+plt.savefig(sys.argv[3])

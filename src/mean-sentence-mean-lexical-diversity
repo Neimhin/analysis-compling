@@ -17,6 +17,7 @@ def sentence_lexical_diversity(s):
 
 parses = pd.read_pickle(sys.argv[2])
 
-parses["sentence-mean-lexical-diversity"] = [np.mean([sentence_lexical_diversity(s) for s in p["parse"].sentences ]) for i,p in parses.iterrows()]
+n="mean-sentence-mean-lexical-diversity"
+parses[n] = [np.mean([np.mean([get_score(word) for word in s.words]) for s in p["parse"].sentences])  for i,p in parses.iterrows() ]
 
-parses[["id","sentence-mean-lexical-diversity"]].to_csv(sys.argv[3],sep="\t",index=False)
+parses[["id",n]].to_csv(sys.argv[3],sep="\t",index=False)
