@@ -1,0 +1,2 @@
+#!/bin/bash
+find . -type f | xargs du | awk '{if($1 > 100000){print $2}}' | cat .gitignore | uniq > tmp.gitignore && cp tmp.gitignore .gitignore
