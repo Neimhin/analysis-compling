@@ -2,9 +2,22 @@ SHELL:=/bin/bash
 splits := $(wildcard split/*)
 splitparses := $(wildcard split-parse/*)
 
+ID2X := data/id2mean-node-types-per-sentence data/id2mean-degree data/id2lexical-density data/id2mean-sentence-mean-lexical-diversity
 
-data/id2proxies: ./src/join data/id2mean-node-types-per-sentence data/id2mean-degree data/id2lexical-density data/id2mean-sentence-mean-lexical-diversity
+data/descriptive-statistics.twitter: data/descriptive-statistics
+data/descriptive-statistics.answer: data/descriptive-statistics
+data/descriptive-statistics.speech: data/descriptive-statistics
+
+data/descriptive-statistics: ./src/descriptive-statistics data/id2forum-and-proxies
 	$^ $@
+
+data/id2proxies: ./src/join  $(ID2X)
+	$^ $@
+
+data/id2forum-and-proxies: ./src/join data/sean-sherlock-unique-ids.tsv $(ID2X)
+	./src/join <(./src/cols data/sean-sherlock-unique-ids.tsv id forum) $(ID2X) $@
+
+data/id2forum: ./src/cols data/sean-sherlock-unique-ides.tsv
 
 fig/mean-sentence-meaan-lexical-diversity-displot.png: ./src/displot data/id2mean-sentence-mean-lexical-diversity
 	$^ mean-sentence-mean-lexical-diversity $@

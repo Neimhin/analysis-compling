@@ -1,0 +1,5 @@
+#!/usr/bin/env python3
+import pandas as pd
+import sys
+
+pd.read_csv(sys.argv[1],delimiter="\t")[sys.argv[2:]].to_csv(sys.stdout,sep="\t",index=False)

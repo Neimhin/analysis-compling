@@ -6,11 +6,11 @@ from functools import reduce
 if(len(sys.argv) <= 2):
   print("why?")
   exit()
-joiners = sys.argv[1:-2]
+joiners = sys.argv[1:-1]
 dest = sys.argv[-1]
 
 def l(s):
   return pd.read_csv(s,delimiter="\t")
 
 joined = reduce(lambda a,x: a.merge(l(x),on="id"),joiners[1:],l(joiners[0]))
-print(joined)
+joined.to_csv(dest,sep="\t",index=False)
