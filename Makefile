@@ -18,6 +18,9 @@ fig/mean-node-types-per-sentence-displot.png: ./src/displot data/id2mean-node-ty
 fig/mean-mean-degree-displot.png: ./src/displot data/id2mean-degree
 	$^ mean-mean-degree $@
 
+fig/mean-flat-degree-displot.png: ./src/displot data/id2mean-degree
+	$^ mean-flat-degree $@
+
 data/id2mean-degree: ./src/mean-degree data/id2node-degree-list-per-sentence
 	$^ $@
 

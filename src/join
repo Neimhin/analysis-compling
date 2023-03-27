@@ -9,9 +9,8 @@ if(len(sys.argv) <= 2):
 joiners = sys.argv[1:-2]
 dest = sys.argv[-1]
 
-
 def l(s):
-  return pd.read_csv(x,delimiter="\t")
+  return pd.read_csv(s,delimiter="\t")
 
-
-joined = reduce(lambda a,x: a.merge(,on="by"),joiners[1:],l(joiners[0]))
+joined = reduce(lambda a,x: a.merge(l(x),on="id"),joiners[1:],l(joiners[0]))
+print(joined)
