@@ -1,6 +1,14 @@
 import pandas as pd
 from functools import reduce
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from collections import Counter
 
+def calculate_ttr(text):
+  tokens = word_tokenize(text)
+  types = Counter(tokens)
+  ttr = len(types) / len(tokens) if len(tokens) > 0 else 0
+  return ttr
 def isTerminal(pt):
   return len(pt.children) == 0
 
