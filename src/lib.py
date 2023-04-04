@@ -1,18 +1,28 @@
 import pandas as pd
 from functools import reduce
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-from collections import Counter
-import seaborn as sns
+
+def reorder(rho):
+  from scipy.cluster import hierarchy
+  row_linkage = hierarchy.linkage(rho.values)
+  col_linkage = hierarchy.linkage(rho.values.T)
+  
+  rows =        hierarchy.leaves_list(row_linkage)
+  cols =        hierarchy.leaves_list(row_linkage)
+  print(cols)
+  return rho.iloc[rows,cols]
 
 def cmap():
+  import seaborn as sns
   return sns.diverging_palette(h_neg=220,h_pos=45,s=74,l=73,sep=10,n=14,center="light",as_cmap=True)
 
 def calculate_ttr(text):
+  from nltk.tokenize import word_tokenize
+  from collections import Counter
   tokens = word_tokenize(text)
   types = Counter(tokens)
   ttr = len(types) / len(tokens) if len(tokens) > 0 else 0
   return ttr
+
 def isTerminal(pt):
   return len(pt.children) == 0
 
