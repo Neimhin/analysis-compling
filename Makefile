@@ -5,7 +5,7 @@ splitparses := $(wildcard split-parse/*)
 ID2X := data/id2ttr data/id2mean-sentence-length data/id2mean-word-length data/id2mean-node-types-per-sentence data/id2mean-degree data/id2lexical-density data/id2mean-sentence-mean-lexical-diversity
 
 correlation: ./src/new-corr data/id2proxies 
-	$^ fig/pairgrid-pearson-spearman-dist
+	$^ fig/pairgrid-dirty
 
 data/descriptive-statistics.twitter: data/descriptive-statistics
 data/descriptive-statistics.answer: data/descriptive-statistics
