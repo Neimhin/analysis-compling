@@ -2,6 +2,9 @@ import pandas as pd
 from functools import reduce
 
 
+
+def ordering(df):
+  ordering=[df.columns[i] for i in [4, 1, 3, 0, 2, 5, 6]]
 def reorder(df):
   from scipy.cluster import hierarchy
   ordering=[df.columns[i] for i in [4, 1, 3, 0, 2, 5, 6]]

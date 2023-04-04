@@ -4,7 +4,7 @@ import lib as l
 
 def main(df,outfile):
   import seaborn as sns
-  fig = sns.pairplot(df)
+  fig = sns.pairplot(df,vars=l.ordering(df))
   fig.tight_layout()
   fig.savefig(outfile,dpi=200)
 
