@@ -3,6 +3,10 @@ from functools import reduce
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from collections import Counter
+import seaborn as sns
+
+def cmap():
+  return sns.diverging_palette(h_neg=220,h_pos=45,s=74,l=73,sep=10,n=14,center="light",as_cmap=True)
 
 def calculate_ttr(text):
   tokens = word_tokenize(text)

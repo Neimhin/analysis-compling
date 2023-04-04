@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+import pandas as pd
+import numpy as np
+import sys
+import json
+
+def msl(json_sents):
+  sents = json.loads(json_sents)
+  sent_lengths = [len(s) for s in sents]
+  return np.mean(sent_lengths)
+
+def main(id2sentences, outfile):
+  n = "mean-sentence-length"
+  id2sentences[n] = id2sentences["sentences"].apply(msl)
+  id2sentences[["id",n]].to_csv(outfile,sep="\t",index=False)
+
+if __name__ == "__main__":
+  main(pd.read_csv(sys.argv[1],sep="\t"),sys.argv[2]) 

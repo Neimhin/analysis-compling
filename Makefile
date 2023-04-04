@@ -2,7 +2,10 @@ SHELL:=/bin/bash
 splits := $(wildcard split/*)
 splitparses := $(wildcard split-parse/*)
 
-ID2X := data/id2mean-node-types-per-sentence data/id2mean-degree data/id2lexical-density data/id2mean-sentence-mean-lexical-diversity
+ID2X := data/id2mean-sentence-length data/id2mean-word-length data/id2mean-node-types-per-sentence data/id2mean-degree data/id2lexical-density data/id2mean-sentence-mean-lexical-diversity
+
+correlation: ./src/corrcoefs data/id2proxies 
+	$^ data/corr fig/corr
 
 data/descriptive-statistics.twitter: data/descriptive-statistics
 data/descriptive-statistics.answer: data/descriptive-statistics
@@ -12,6 +15,11 @@ data/descriptive-statistics: ./src/descriptive-statistics data/id2forum-and-prox
 	$^ $@
 
 data/id2proxies: ./src/join  $(ID2X)
+	$^ $@
+
+data/id2mean-word-length: ./src/id2mean-word-length data/id2sentences
+	$^ $@
+data/id2mean-sentence-length: ./src/id2mean-sentence-length data/id2sentences
 	$^ $@
 
 data/id2forum-and-proxies: ./src/join data/sean-sherlock-unique-ids.tsv $(ID2X)

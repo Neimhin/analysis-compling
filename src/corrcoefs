@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import sys
+import lib as l
+from scipy.cluster import hierarchy
+
+cmap = l.cmap()
+
+
+x = pd.read_csv(sys.argv[1],sep="\t").drop(columns="id")
+
+
+for method in ["pearson","kendall","spearman"]:
+  rho = x.corr(method=method)
+  rho.to_csv(sys.argv[2] + "." + method,sep="\t")
+  fig = sns.heatmap(rho,vmin=-1,vmax=1,cmap=cmap).get_figure()
+  fig.tight_layout()
+  fig.savefig(sys.argv[3] + "." + method + "." + "png",dpi=200)
+
+  linkage = hierarchy.linkage(rho.values, method="ward")
+  cfig=sns.clustermap(rho,cmap=cmap,vmin=-1,vmax=1,row_linkage=linkage,col_linkage=linkage)
+  cfig.savefig(sys.argv[3] + "." + method + ".cluster.png", dpi=200)

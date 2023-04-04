@@ -9,6 +9,6 @@ if __name__ == "__main__":
   df = l.load(sys.argv[1])
   li = df["node-degree-list"].apply(json.loads) 
   df["mean-mean-degree"] = [np.mean([np.mean(nodes) for nodes in x]) for x in li]
-  df["mean-flat-degree"] = [np.mean([degree for sent in sentences for degree in sent]) for sentences in li]
+  # df["mean-flat-degree"] = [np.mean([degree for sent in sentences for degree in sent]) for sentences in li]
 
-  df[["id","mean-mean-degree","mean-flat-degree"]].to_csv(sys.argv[2],sep="\t",index=False)
+  df[["id","mean-mean-degree"]].to_csv(sys.argv[2],sep="\t",index=False)
