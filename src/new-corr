@@ -10,7 +10,6 @@ from scipy.stats import pearsonr
 
 cmap = l.cmap()
 
-
 x = pd.read_csv(sys.argv[1],sep="\t").drop(columns="id")
 x = l.reorder(x)
 
@@ -20,9 +19,13 @@ def reg_coef(x,y,label=None,color=None,**kwargs):
     ax.annotate('r = {:.2f}'.format(r), xy=(0.5,0.5), xycoords='axes fraction', ha='center')
     ax.set_axis_off()
 
+
+def hist(x,label,color):
+  return sns.histplot(x,label=label,color=color,kde=True)
+
 g = sns.PairGrid(x)
+g.map_diag(hist)
 g.map_diag(sns.kdeplot)
-g.map_diag(sns.histplot)
 g.map_lower(sns.scatterplot)
 g.map_upper(reg_coef)
 g.tight_layout()
