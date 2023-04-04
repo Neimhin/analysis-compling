@@ -13,7 +13,8 @@ def reorder(df):
 
 def cmap():
   import seaborn as sns
-  return sns.diverging_palette(h_neg=220,h_pos=45,s=74,l=73,sep=10,n=14,center="light",as_cmap=True)
+  cmap = sns.diverging_palette(h_neg=220,h_pos=45,s=74,l=73,sep=10,n=14,center="light",as_cmap=True)
+  return cmap
 
 def calculate_ttr(text):
   from nltk.tokenize import word_tokenize

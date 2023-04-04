@@ -20,6 +20,7 @@ def reg_coef(x,y,label=None,color=None,**kwargs):
     spearman,pspearman = spearmanr(x,y)
     ax.annotate('Pearson\'s r = {:.2f}\nSpearman\'s r = {:.2f}'.format(r,spearman), xy=(0.5,0.5), xycoords='axes fraction', ha='center')
     ax.set_axis_off()
+    ax.set_facecolor(cmap((spearman + 1.0 )/ 2.0))
 
 
 def hist(x,label=None,color=None,**kwargs):
@@ -27,7 +28,6 @@ def hist(x,label=None,color=None,**kwargs):
 
 g = sns.PairGrid(x)
 g.map_diag(hist)
-#g.map_diag(sns.kdeplot)
 g.map_lower(sns.scatterplot)
 g.map_upper(reg_coef)
 g.tight_layout()
