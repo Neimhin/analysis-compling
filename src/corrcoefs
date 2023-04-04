@@ -19,6 +19,6 @@ for method in ["pearson","kendall","spearman"]:
   fig.tight_layout()
   fig.savefig(sys.argv[3] + "." + method + "." + "png",dpi=200)
 
-  linkage = hierarchy.linkage(rho.values, method="ward")
+  linkage = hierarchy.linkage(rho.values)
   cfig=sns.clustermap(rho,cmap=cmap,vmin=-1,vmax=1,row_linkage=linkage,col_linkage=linkage)
   cfig.savefig(sys.argv[3] + "." + method + ".cluster.png", dpi=200)
