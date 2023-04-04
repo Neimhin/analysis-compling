@@ -24,3 +24,5 @@ g = sns.PairGrid(x)
 g.map_diag(sns.histplot)
 g.map_lower(sns.regplot)
 g.map_upper(reg_coef)
+
+g.savefig(sys.argv[2],dpi=200)
