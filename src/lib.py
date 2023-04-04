@@ -1,15 +1,12 @@
 import pandas as pd
 from functools import reduce
 
-def reorder(rho):
+
+def reorder(df):
   from scipy.cluster import hierarchy
-  row_linkage = hierarchy.linkage(rho.values)
-  col_linkage = hierarchy.linkage(rho.values.T)
-  
-  rows =        hierarchy.leaves_list(row_linkage)
-  cols =        hierarchy.leaves_list(row_linkage)
-  print(cols)
-  return rho.iloc[rows,cols]
+  ordering=[df.columns[i] for i in [4, 1, 3, 0, 2, 5, 6]]
+  print(ordering)
+  return df[ordering]
 
 def cmap():
   import seaborn as sns
