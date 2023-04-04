@@ -21,7 +21,7 @@ def reg_coef(x,y,label=None,color=None,**kwargs):
     ax.set_axis_off()
 
 g = sns.PairGrid(x)
-g.map_diag(sns.histplot)
+g.map_diag(sns.kdeplot)
 g.map_lower(sns.regplot)
 g.map_upper(reg_coef)
 g.tight_layout()
