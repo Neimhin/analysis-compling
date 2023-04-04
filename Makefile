@@ -7,6 +7,9 @@ ID2X := data/id2ttr data/id2mean-sentence-length data/id2mean-word-length data/i
 correlation: ./src/corrcoefs data/id2proxies 
 	$^ data/corr fig/corr
 
+new-correlation: ./src/new-corr data/id2proxies 
+	$^ data/corr fig/corr-pearson
+
 data/descriptive-statistics.twitter: data/descriptive-statistics
 data/descriptive-statistics.answer: data/descriptive-statistics
 data/descriptive-statistics.speech: data/descriptive-statistics
