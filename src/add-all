@@ -1,0 +1,5 @@
+#!/bin/bash
+bash filter-gitlarge-files-gitignore
+git add .
+git commit -m "autocommit"
+git push
