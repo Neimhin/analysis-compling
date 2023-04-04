@@ -28,7 +28,7 @@ data/id2forum-and-proxies: ./src/join data/sean-sherlock-unique-ids.tsv $(ID2X)
 
 data/id2forum: ./src/cols data/sean-sherlock-unique-ides.tsv
 
-fig/pairplot: ./src/pairplot data/id2proxies
+fig/pairplot.png: ./src/pairplot data/id2proxies
 	$^ $@
 
 fig/mean-sentence-meaan-lexical-diversity-displot.png: ./src/displot data/id2mean-sentence-mean-lexical-diversity
