@@ -22,7 +22,8 @@ def reg_coef(x,y,label=None,color=None,**kwargs):
 
 g = sns.PairGrid(x)
 g.map_diag(sns.kdeplot)
-g.map_lower(sns.regplot)
+g.map_diag(sns.histplot)
+g.map_lower(sns.scatterplot)
 g.map_upper(reg_coef)
 g.tight_layout()
 g.savefig(sys.argv[2],dpi=200)
