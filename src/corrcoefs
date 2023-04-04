@@ -24,7 +24,7 @@ for method in ["pearson","kendall","spearman"]:
   rho = x.corr(method=method)
   rho = reorder(rho)
   rho.to_csv(sys.argv[2] + "." + method,sep="\t")
-  fig = sns.heatmap(rho,vmin=-1,vmax=1,cmap=cmap,annot=True,annot_kws={"size":8}).get_figure()
+  fig = sns.heatmap(rho,vmin=-1,vmax=1,cmap=cmap,annot=True,fmt=".1f").get_figure()
   fig.tight_layout()
   fig.savefig(sys.argv[3] + "." + method + "." + "png",dpi=200)
   plt.clf()
