@@ -1,5 +1,60 @@
 import pandas as pd
 from functools import reduce
+import re
+import nltk
+import string
+from nltk.tokenize import word_tokenize
+import seaborn as sns
+import matplotlib as mpl
+sns.set_theme()
+mpl.rcParams["text.usetex"]=True
+mpl.rcParams["lines.linewidth"]=0.9
+mpl.rcParams["figure.dpi"]=400
+
+
+def lowercase(df, text='text'):
+    df[text] = df[text].apply(lambda x: x.lower())
+    return df
+
+def remove_at_mentions(df, text='text'):
+    df[text] = df[text].apply(lambda x: re.sub(r'@\w+', '__ATMENTION__', x))
+    return df
+
+def remove_hashtags(df, text='text'):
+    df[text] = df[text].apply(lambda x: re.sub(r'#\w+', '__HASHTAG__', x))
+    return df
+
+
+def remove_urls(df, text='text'):
+    url_pattern = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
+    df[text] = df[text].apply(lambda x: url_pattern.sub('__URL__', x))
+    return df
+
+def whitespace(df, text='text'):
+    pattern1 = re.compile(r'\s+')
+    pattern2 = re.compile(r'(^\s+)|(\s+$)')
+    df[text] = df[text].apply(lambda x: pattern1.sub(' ',x).strip())
+    return df
+
+def punctuation(df, text="text"):
+    import unicodedata
+    punctuation_cats = set(['Pc', 'Pd', 'Ps', 'Pe', 'Pi', 'Pf', 'Po'])
+    def simple_punctuation(t):
+      return ''.join((x if unicodedata.category(x) not in punctuation_cats or x == "_" else "!") for x in t)
+    punct = string.punctuation.replace("_","")
+    tra = "".maketrans(punct, '\t'*len(punct))
+    df[text] = df[text].apply(lambda x: simple_punctuation(x).translate(tra).replace(r"\t+", " __PUNCT__ "))
+    return df
+
+
+def preprocess(df, text='text'):
+    df = lowercase(df, text)
+    df = remove_hashtags(df, text)
+    df = remove_at_mentions(df, text)
+    df = remove_urls(df, text)
+    df = punctuation(df, text)
+    df = whitespace(df, text)
+    return df
 
 
 

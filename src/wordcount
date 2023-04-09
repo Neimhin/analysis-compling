@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+import pandas as pd
+from sys import argv
+df = pd.read_csv(argv[1],sep="\t")
+name = argv[2] if len(argv) >= 3 else "wordcount"
+
+df[name] = df["text"].str.split().str.len()
+
+print(df[name].sum())
+
+df[["id",name]].to_csv(f"data/id2{name}",index=False,sep="\t")

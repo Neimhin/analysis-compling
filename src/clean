@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+import pandas as pd
+from lib import preprocess
+from sys import argv
+
+if __name__ == "__main__":
+  # Load your DataFrame
+  f = argv[1]
+  df = pd.read_csv(f,sep="\t")
+  
+  # Apply preprocessing
+  df = preprocess(df, text='text')
+  df.to_csv(f + ".clean.tsv", index=False, sep="\t")
