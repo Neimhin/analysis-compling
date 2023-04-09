@@ -2,7 +2,7 @@ SHELL:=/bin/bash
 splits := $(wildcard split/*)
 splitparses := $(wildcard split-parse/*)
 
-ID2X := data/id2ttr data/id2mean-sentence-length data/id2mean-word-length data/id2mean-node-types-per-sentence data/id2mean-degree data/id2lexical-density data/id2mean-sentence-mean-lexical-diversity
+ID2X := $(foreach f,id2ttr id2mean-sentence-length id2mean-word-length id2mean-node-types-per-sentence id2mean-degree id2lexical-density id2mean-sentence-mean-lexical-diversity,data/$(source).$f)
 
 correlation: ./src/new-corr data/id2proxies 
 	$^ fig/pairgrid-dirty
@@ -11,7 +11,13 @@ data/descriptive-statistics.twitter: data/descriptive-statistics
 data/descriptive-statistics.answer: data/descriptive-statistics
 data/descriptive-statistics.speech: data/descriptive-statistics
 
-data/descriptive-statistics: ./src/descriptive-statistics data/id2forum-and-proxies
+data/id2word-counts: ./src/wordcount data/sean-sherlock-unique-ids.tsv
+	$^ word-counts
+
+data/id2clean-word-counts: ./src/wordcount data/sean-sherlock-unique-ids.tsv.clean.tsv
+	$^ clean-word-counts
+
+data/$(source).descriptive-statistics: ./src/descriptive-statistics data/$(source).id2forum-and-proxies
 	$^ $@
 
 
@@ -23,7 +29,14 @@ data/id2mean-word-length: ./src/id2mean-word-length data/id2sentences
 data/id2mean-sentence-length: ./src/id2mean-sentence-length data/id2sentences
 	$^ $@
 
-data/id2forum-and-proxies: ./src/join data/sean-sherlock-unique-ids.tsv $(ID2X)
+bare: data/sean-sherlock-unique-ids.tsv.clean.tsv.bare.tsv
+%.bare.tsv: ./src/bare %
+	$^
+
+%.clean.tsv: ./src/clean %
+	$^
+
+data/$(source).id2forum-and-proxies: ./src/join $(source) $(ID2X)
 	./src/join <(./src/cols data/sean-sherlock-unique-ids.tsv id forum) $(ID2X) $@
 
 data/id2forum: ./src/cols data/sean-sherlock-unique-ides.tsv
@@ -64,7 +77,7 @@ data/id2node-type-list: ./src/node-type-list data/parses.pickle
 data/id2mean-sentence-mean-lexical-diversity: ./src/mean-sentence-mean-lexical-diversity data/stanza-lemmas-token2lex-score data/parses.pickle
 	$^ $@
 
-data/id2lexical-density: ./src/lexical-density data/stanza-lemmas-token2lex-score data/parses.pickle
+data/$(source).id2lexical-density: ./src/lexical-density data/stanza-lemmas-token2lex-score data/parses.pickle
 	$^ $@
 
 data/id2sentence-mean-lexical-diversity: ./src/sentence-mean-lexical-diversity data/stanza-lemmas-token2lex-score data/parses.pickle 
